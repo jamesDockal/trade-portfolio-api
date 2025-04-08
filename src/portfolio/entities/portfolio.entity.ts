@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Trade } from 'src/trades/entities/trade.entity';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
 export class Portfolio {
@@ -10,4 +11,7 @@ export class Portfolio {
 
   @Column('float')
   initialAmount: number;
+
+  @OneToMany(() => Trade, (trade) => trade.portfolio, { cascade: true })
+  trades: Trade[];
 }

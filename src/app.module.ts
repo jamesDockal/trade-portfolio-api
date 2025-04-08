@@ -5,6 +5,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { PortfolioModule } from './portfolio/portfolio.module';
 import { Portfolio } from './portfolio/entities/portfolio.entity';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TradesModule } from './trades/trades.module';
+import { Trade } from './trades/entities/trade.entity';
 
 @Module({
   imports: [
@@ -18,12 +20,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: config.get('DB_USERNAME', 'admin'),
         password: config.get('DB_PASSWORD', '123'),
         database: config.get('DB_NAME', 'main'),
-        entities: [Portfolio],
+        entities: [Portfolio, Trade],
         autoLoadEntities: true,
         synchronize: true,
       }),
     }),
     PortfolioModule,
+    TradesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
