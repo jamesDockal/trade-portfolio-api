@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres:
     image: postgres:15
@@ -6,20 +8,23 @@ services:
     ports:
       - '5432:5432'
     environment:
+      DB_HOST: postgres
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: 123
       POSTGRES_DB: main
+    networks:
+      - portfolio_net
 
   nestjs:
     build: .
-    container_name: portifolio_api
+    container_name: portfolio_api
     restart: always
     ports:
       - '8000:8000'
     depends_on:
       - postgres
     environment:
-      DB_HOST: admin
+      DB_HOST: postgres
       DB_PORT: 5432
       DB_USER: admin
       DB_PASSWORD: 123
@@ -27,3 +32,9 @@ services:
     command: npm run start:dev
     volumes:
       - .:/usr/src/app
+    networks:
+      - portfolio_net
+
+networks:
+  portfolio_net:
+    driver: bridge
