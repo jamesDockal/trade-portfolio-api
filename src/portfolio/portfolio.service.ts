@@ -18,7 +18,9 @@ export class PortfolioService {
   }
 
   async findAll(): Promise<Portfolio[]> {
-    return this.portfolioRepository.find();
+    return this.portfolioRepository.find({
+      relations: ['trades'],
+    });
   }
 
   async findOne(id: number): Promise<Portfolio> {
